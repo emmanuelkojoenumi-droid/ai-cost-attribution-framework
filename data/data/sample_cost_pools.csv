@@ -1,0 +1,6 @@
+cost_pool,total_cost_usd,primary_driver,notes
+User_Facing_Infrastructure,2500000,active_users,Content delivery and user experience services
+Transaction_Processing,1800000,transaction_volume,Real-time processing and API infrastructure
+Device_and_Supply_Chain,950000,unit_volume,Logistics and device management
+Engineering_Support,620000,headcount,Development tools and testing environments
+Compute_and_Storage,1200000,compute_consumption,On-demand and reserved capacity
