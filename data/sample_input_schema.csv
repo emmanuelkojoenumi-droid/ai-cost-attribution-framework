@@ -1,0 +1,6 @@
+product_line,active_users,transaction_volume,unit_volume,headcount,compute_consumption
+Product_A,45000,125000,8500,120,35.2
+Product_B,18000,48000,3200,45,12.8
+Product_C,27000,72000,5100,75,21.4
+Product_D,6500,18000,1200,20,7.1
+Product_E,3500,9000,800,15,3.5
