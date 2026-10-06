@@ -39,11 +39,11 @@ def calculate_driver_shares(driver_data: Dict[str, float]) -> Dict[str, float]:
 
     Args:
         driver_data: {product_line: raw_driver_value}
-                     e.g. {'SMP': 71.0, 'Partner_TV': 17.7, 'Amazon_TV': 2.0}
+                     e.g. {'Product_A': 71.0, 'Product_C': 17.7, 'Product_B': 2.0}
 
     Returns:
         {product_line: share_percentage}
-        e.g. {'SMP': 78.89, 'Partner_TV': 19.67, 'Amazon_TV': 2.22}
+        e.g. {'Product_A': 78.89, 'Product_C': 19.67, 'Product_B': 2.22}
 
     Raises:
         ValueError: If all driver values are zero (cannot calculate shares)
@@ -90,16 +90,16 @@ def calculate_mau_shares(mau_data: Dict[str, float]) -> Dict[str, float]:
 
     Args:
         mau_data: {product_line: monthly_active_users_millions}
-                  e.g. {'SMP': 71.0, 'Partner_TV': 17.7, 'Amazon_TV': 2.0}
+                  e.g. {'Product_A': 71.0, 'Product_C': 17.7, 'Product_B': 2.0}
 
     Returns:
         {product_line: share_percentage}
 
     Example:
-        >>> mau = {'SMP': 71.0, 'Partner_TV': 17.7, 'Amazon_TV': 2.0}
+        >>> mau = {'Product_A': 71.0, 'Product_C': 17.7, 'Product_B': 2.0}
         >>> shares = calculate_mau_shares(mau)
         >>> print(shares)
-        {'SMP': 78.89, 'Partner_TV': 19.67, 'Amazon_TV': 2.22}
+        {'Product_A': 78.89, 'Product_C': 19.67, 'Product_B': 2.22}
     """
     return calculate_driver_shares(mau_data)
 
@@ -162,7 +162,7 @@ def calculate_unit_shares(
 
     Args:
         unit_data: {product_line: unit_volume}
-                   e.g. {'SMP': 25.3, 'Partner_TV': 12.4, 'Amazon_TV': 0.7}
+                   e.g. {'Product_A': 25.3, 'Product_C': 12.4, 'Product_B': 0.7}
         unit_type: Description of the unit for documentation
                    e.g. "units", "online_units", "shipments", "batches"
 
@@ -170,10 +170,10 @@ def calculate_unit_shares(
         {product_line: share_percentage}
 
     Example:
-        >>> units = {'SMP': 25.3, 'Partner_TV': 12.4, 'Amazon_TV': 0.7}
+        >>> units = {'Product_A': 25.3, 'Product_C': 12.4, 'Product_B': 0.7}
         >>> shares = calculate_unit_shares(units, unit_type='online_units')
         >>> print(shares)
-        {'SMP': 65.89, 'Partner_TV': 32.29, 'Amazon_TV': 1.82}
+        {'Product_A': 65.89, 'Product_C': 32.29, 'Product_B': 1.82}
     """
     return calculate_driver_shares(unit_data)
 
@@ -195,7 +195,7 @@ def calculate_headcount_shares(
 
     Args:
         headcount_data: {product_line: headcount}
-                        e.g. {'SMP': 120, 'Partner_TV': 45, 'Amazon_TV': 15}
+                        e.g. {'Product_A': 120, 'Product_C': 45, 'Product_B': 15}
 
     Returns:
         {product_line: share_percentage}
@@ -226,7 +226,7 @@ def calculate_consumption_shares(
 
     Args:
         consumption_data: {product_line: consumption_value}
-                          e.g. {'SMP': 450000, 'Partner_TV': 85000, 'Amazon_TV': 12000}
+                          e.g. {'Product_A': 450000, 'Product_C': 85000, 'Product_B': 12000}
         unit_of_measure: Description of the consumption unit for documentation
                          e.g. "compute_hours", "GB_stored", "API_calls", "GB_transferred"
 
@@ -234,10 +234,10 @@ def calculate_consumption_shares(
         {product_line: share_percentage}
 
     Example:
-        >>> consumption = {'SMP': 450000, 'Partner_TV': 85000, 'Amazon_TV': 12000}
+        >>> consumption = {'Product_A': 450000, 'Product_C': 85000, 'Product_B': 12000}
         >>> shares = calculate_consumption_shares(consumption, 'compute_hours')
         >>> print(shares)
-        {'SMP': 82.57, 'Partner_TV': 15.60, 'Amazon_TV': 2.20}
+        {'Product_A': 82.57, 'Product_C': 15.60, 'Product_B': 2.20}
     """
     return calculate_driver_shares(consumption_data)
 
@@ -262,8 +262,8 @@ def validate_driver_data(
     Args:
         driver_data: {driver_name: {product_line: value}}
                      e.g. {
-                         'MAU': {'SMP': 71.0, 'Partner_TV': 17.7},
-                         'Units': {'SMP': 25.3, 'Partner_TV': 12.4}
+                         'MAU': {'Product_A': 71.0, 'Product_C': 17.7},
+                         'Units': {'Product_A': 25.3, 'Product_C': 12.4}
                      }
         expected_product_lines: List of product lines that should appear
                                  in every driver. If None, validation uses
@@ -282,14 +282,14 @@ def validate_driver_data(
 
     Example:
         >>> drivers = {
-        ...     'MAU': {'SMP': 71.0, 'Partner_TV': 17.7, 'Amazon_TV': 2.0},
-        ...     'Units': {'SMP': 25.3, 'Partner_TV': 12.4, 'Amazon_TV': 0.0}
+        ...     'MAU': {'Product_A': 71.0, 'Product_C': 17.7, 'Product_B': 2.0},
+        ...     'Units': {'Product_A': 25.3, 'Product_C': 12.4, 'Product_B': 0.0}
         ... }
         >>> results = validate_driver_data(drivers)
         >>> print(results['Units']['status'])
         'WARNING'
         >>> print(results['Units']['issues'])
-        ['Amazon_TV has zero value for Units — verify this is correct']
+        ['Product_B has zero value for Units — verify this is correct']
     """
     if expected_product_lines is None:
         # Infer expected product lines from the union of all drivers
@@ -461,9 +461,9 @@ def calculate_all_driver_shares(driver_dataset: Dict[str, Dict[str, float]]) -> 
 
     Example:
         >>> dataset = {
-        ...     'MAU': {'SMP': 71.0, 'Partner_TV': 17.7, 'Amazon_TV': 2.0},
-        ...     'Units': {'SMP': 25.3, 'Partner_TV': 12.4, 'Amazon_TV': 0.7},
-        ...     'TPS': {'SMP': 0.0, 'Partner_TV': 0.0, 'Amazon_TV': 0.0}
+        ...     'MAU': {'Product_A': 71.0, 'Product_C': 17.7, 'Product_B': 2.0},
+        ...     'Units': {'Product_A': 25.3, 'Product_C': 12.4, 'Product_B': 0.7},
+        ...     'TPS': {'Product_A': 0.0, 'Product_C': 0.0, 'Product_B': 0.0}
         ... }
         >>> all_shares = calculate_all_driver_shares(dataset)
     """
@@ -521,32 +521,32 @@ if __name__ == "__main__":
     # Sample driver data (values in millions where applicable)
     sample_drivers = {
         'MAU': {
-            'SMP': 71.0,
-            'Partner_Branded_TV': 17.7,
-            'Amazon_Branded_TV': 2.0,
-            'Appstore': 1.5,
-            'Accessories': 0.3
+            'Product_A': 71.0,
+            'Product_C': 17.7,
+            'Product_B': 2.0,
+            'Product_D': 1.5,
+            'Product_E': 0.3
         },
         'MAD': {
-            'SMP': 100.6,
-            'Partner_Branded_TV': 20.1,
-            'Amazon_Branded_TV': 2.3,
-            'Appstore': 0.0,
-            'Accessories': 0.0
+            'Product_A': 100.6,
+            'Product_C': 20.1,
+            'Product_B': 2.3,
+            'Product_D': 0.0,
+            'Product_E': 0.0
         },
         'Units': {
-            'SMP': 25.3,
-            'Partner_Branded_TV': 12.4,
-            'Amazon_Branded_TV': 0.7,
-            'Appstore': 0.0,
-            'Accessories': 0.3
+            'Product_A': 25.3,
+            'Product_C': 12.4,
+            'Product_B': 0.7,
+            'Product_D': 0.0,
+            'Product_E': 0.3
         },
         'Headcount': {
-            'SMP': 120,
-            'Partner_Branded_TV': 35,
-            'Amazon_Branded_TV': 15,
-            'Appstore': 20,
-            'Accessories': 10
+            'Product_A': 120,
+            'Product_C': 35,
+            'Product_B': 15,
+            'Product_D': 20,
+            'Product_E': 10
         }
     }
 
@@ -554,8 +554,8 @@ if __name__ == "__main__":
     print("\nStep 1: Validating driver data...")
     validation = validate_driver_data(
         sample_drivers,
-        expected_product_lines=['SMP', 'Partner_Branded_TV', 'Amazon_Branded_TV',
-                                 'Appstore', 'Accessories']
+        expected_product_lines=['Product_A', 'Product_C', 'Product_B',
+                                 'Product_D', 'Product_E']
     )
 
     for driver, result in validation.items():
