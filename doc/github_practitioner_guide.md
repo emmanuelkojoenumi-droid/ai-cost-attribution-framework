@@ -42,9 +42,8 @@ Based on production deployment in a complex technology environment:
 - Data assembly errors reduced from 5-8% to under 0.1%
 - Finance analyst time shifted from 70% data assembly to 80% strategic analysis
 - Over 200 routine cost queries eliminated per quarter through self-service analytics
-- $1.14 million annual cost misattribution corrected — an error that had been invisible to every existing process
 
-These results came from a single organization. Your results will depend on the complexity of your cost structure, the quality of your operational data, and how far your current methodology has drifted from operational reality. But the direction of improvement is consistent: more accurate attribution, less manual effort, more time for the work that actually drives decisions.
+These results came from a single organization. Your results will depend on the complexity of your cost structure, the quality of your operational data, and how far your current methodology has drifted from operational reality. Organizations with larger cost portfolios, more product lines, or longer-standing proxy-based methodologies tend to see larger corrections. But the direction of improvement is consistent: more accurate attribution, less manual effort, and more time for the work that actually drives decisions.
 
 ---
 
